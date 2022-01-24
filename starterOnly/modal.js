@@ -11,13 +11,30 @@ function editNav() {
 const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
+const formCloseBtn = document.querySelector(".close");
+const first = document.getElementById("first");
+const last = document.getElementById("last");
+const mail = document.getElementById("mail");
+const birthdate = document.getElementById("birthdate");
+const nb = document.getElementById("quantity");
 
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
+
+// Close modal event
+formCloseBtn.addEventListener("click", closeModal);
 
 // launch modal form
 function launchModal() {
   modalbg.style.display = "block";
 }
 
+// close modal form
+function closeModal() {
+  modalbg.style.display = "none";
+}
 
+// Validate form
+function validate() {
+
+}
