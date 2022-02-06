@@ -1,12 +1,3 @@
-function editNav() {
-  var x = document.getElementById("myTopnav");
-  if (x.className === "topnav") {
-    x.className += " responsive";
-  } else {
-    x.className = "topnav";
-  }
-}
-
 // DOM Elements
 const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
@@ -23,6 +14,10 @@ const tos = document.getElementById("checkbox1");
 const checkbox = document.getElementsByName("location");
 const btnsubmit = document.querySelector(".btn-submit");
 
+// Form validation
+
+let fi, la, em, da, nu, ch, to = false;
+
 disableSubmit();
 
 // Form Listeners
@@ -32,9 +27,13 @@ first.addEventListener('input', (e) =>
   hideError(first);
   if(!isValidName(e.target.value))
   {
+    fi = false;
     showError(first);
+    disableSubmit();
+  }else{
+    fi = true;
+    enableSubmit();
   }
-  enableSubmit();
 })
 
 last.addEventListener('input', (e) =>
@@ -42,9 +41,13 @@ last.addEventListener('input', (e) =>
   hideError(last);
   if(!isValidName(e.target.value))
   {
+    la = false;
     showError(last);
+    disableSubmit();
+  }else{
+    la = true;
+    enableSubmit();
   }
-  enableSubmit();
 })
 
 email.addEventListener('input', (e) =>
@@ -52,9 +55,12 @@ email.addEventListener('input', (e) =>
   hideError(email);
   if(!isValidEmail(e.target.value))
   {
+    em = false;
     showError(email);
+  }else{
+    em = true;
+    enableSubmit();
   }
-  enableSubmit();
 })
 
 date.addEventListener('input', (e) =>
@@ -62,9 +68,13 @@ date.addEventListener('input', (e) =>
   hideError(date);
   if(!isValidDate(e.target.value))
   {
+    da = false;
     showError(date);
+    disableSubmit();
+  }else{
+    da = true;
+    enableSubmit();
   }
-  enableSubmit();
 })
 
 nb.addEventListener('input', (e) =>
@@ -72,25 +82,41 @@ nb.addEventListener('input', (e) =>
   hideError(nb);
   if(!isValidNumber(e.target.value))
   {
+    nu = false;
     showError(nb);
+    disableSubmit();
+  }else{
+    nu = true;
+    enableSubmit();
   }
-  enableSubmit();
 })
 
 tos.addEventListener('click', (e) =>
 {
-  console.log(tos);
+  hideError(e.target);
+  if(!isChecked(e.target))
+  {
+    to = false;
+    showError(e.target);
+    disableSubmit();
+  }else{
+    to = true;
+    enableSubmit();
+  }
 })
 
 checkbox.forEach((box) => box.addEventListener("click", (e) =>
 {
-  console.log(e.target.checked);
-  hideError(checkbox);
-  if(!isChecked(e.target.checked))
+  hideError(e.target);
+  if(!isChecked(e.target))
   {
-    showError(checkbox);
+    ch = false;
+    showError(e.target);
+    disableSubmit();
+  }else{
+    ch = true;
+    enableSubmit();
   }
-
 }))
 
 // launch modal event
@@ -104,14 +130,16 @@ function launchModal() {
   modalbg.style.display = "block";
 }
 
-// close modal form
 function closeModal() {
   modalbg.style.display = "none";
 }
 
 // Validate form
 function validate() {
-
+  document.querySelector(".modal-body").innerHTML = '<p>Merci de votre inscription !</p>';
+  form.submit(function(e){
+    e.preventDefault();
+  })
 }
 
 // Form Errors
@@ -124,6 +152,21 @@ function hideError(el)
 function showError(el) 
 {
   el.closest('.formData').setAttribute('data-error-visible', true)
+}
+
+// Submit interactions
+
+function disableSubmit()
+{
+  btnsubmit.setAttribute('disabled', true);
+}
+
+function enableSubmit()
+{
+  if(fi & la & em & nu & da & to & ch == true)
+  {
+    btnsubmit.removeAttribute('disabled', true);
+  }
 }
 
 // isValid functions
@@ -149,7 +192,7 @@ function isValidEmail(email)
 // Validates that the input string is a valid date format
 function isValidDate(dateString)
 {
-  // First check for the pattern
+  // Check for the pattern
   if(!/^\d{4}\/\d{2}\/\d{2}$/.test(dateString))
   {
     return true;
@@ -168,7 +211,6 @@ function isValidNumber(nb)
 }
 
 function isChecked(checkbox) {
-  hideError(checkbox);
   if(checkbox.checked)
   {
     return true;
@@ -177,12 +219,11 @@ function isChecked(checkbox) {
 
 }
 
-function disableSubmit()
-{
-  btnsubmit.setAttribute('disabled', true);
-}
-
-function enableSubmit()
-{
-  btnsubmit.setAttribute('disabled', false);
+function editNav() {
+  var x = document.getElementById("myTopnav");
+  if (x.className === "topnav") {
+    x.className += " responsive";
+  } else {
+    x.className = "topnav";
+  }
 }
